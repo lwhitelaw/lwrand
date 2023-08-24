@@ -3,19 +3,30 @@ package me.lwhitelaw.lwrand;
 import java.util.random.RandomGenerator;
 
 /**
- * A counter-based PRNG with a period of 2^64 - 2^32, emitting 32-bit values.
+ * A counter-based PRNG with a period of 2^64 - 2^32, emitting 32-bit values and supporting 2^31 independent streams.
  * <br>
- * The internals are two 32-bit "cores" combined with XOR that advance together. Core A has period 2^32 and core B has period 2^32-1,
- * producing a sequence with the above period. Core A and Core B both pass PractRand for 2^29 bytes individually. The PractRand failure
- * point for LWRand32 is conservatively estimated to be 2^56 bytes of output. LWRand32 also passes BigCrush.
+ * The internals are two 32-bit "cores" combined with XOR that advance together, potentially at different strides.
+ * Core A has period 2^32 and core B has period 2^32-1, producing a sequence with the above period. Core A and Core B both
+ * pass PractRand for 2^29 bytes individually. The PractRand failure point for LWRand32 is conservatively estimated to
+ * be 2^56 bytes of output. LWRand32 also passes BigCrush.
+ * <br>
+ * LWRand32 can also have a stream configured to one of 2^31 possible independent stream values using the {@linkplain #setStream(int)} method.
+ * The default stream is stream 0. Generators with different stream values will produce entirely different sequences of values.
  * <br>
  * 64-bit systems should prefer LWRand64 over this generator due to a larger period, better statistical quality, and faster speed on those systems.
  * @author lwhitelaw
  *
  */
 public class LWRand32 implements RandomGenerator {
-	int c; // counter (traverses all 2^32)
-	int d; // counter (traverses 2^32-1 states, 0x00000000-0xFFFFFFFE)
+	private static final ThreadLocal<LWRand32> TLR = ThreadLocal.withInitial(() -> {
+		int sysHashCode = System.identityHashCode(Thread.currentThread());
+		return new LWRand32().setStream(sysHashCode);
+	});
+	
+	private int c; // counter (traverses all 2^32)
+	private int d; // counter (traverses 2^32-1 states, 0x00000000-0xFFFFFFFE)
+	
+	private int stream; // increment of c (any odd number, forms Weyl sequence)
 	
 	/**
 	 * Construct a generator with a seed derived from the system clock.
@@ -24,6 +35,7 @@ public class LWRand32 implements RandomGenerator {
 		c = (int) (System.currentTimeMillis());
 		d = (int) (System.nanoTime());
 		if (d == 0xFFFFFFFF) d = 0; // prevent d being outside of range
+		stream = 1;
 	}
 	
 	/**
@@ -34,6 +46,25 @@ public class LWRand32 implements RandomGenerator {
 		c = (int) ((seed >>> 32) & 0x00000000FFFFFFFFL);
 		d = (int) (seed & 0x00000000FFFFFFFFL);
 		if (d == 0xFFFFFFFF) d = 0; // prevent d being outside of range
+		stream = 1;
+	}
+	
+	/**
+	 * Return a thread-local generator. The generator is preseeded with the system clock and uses a stream based on the thread's
+	 * identity hash code.
+	 * @return the thread-local generator
+	 */
+	public static LWRand32 threadLocal() {
+		return TLR.get();
+	}
+	
+	public LWRand32 setStream(int streamId) {
+		stream = (streamId << 1) | 1;
+		return this;
+	}
+	
+	public int getStream() {
+		return stream >>> 1;
 	}
 	
 	/**
