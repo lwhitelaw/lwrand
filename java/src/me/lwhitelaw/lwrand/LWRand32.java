@@ -39,7 +39,7 @@ public class LWRand32 implements RandomGenerator {
 	}
 	
 	/**
-	 * Construct a generator with an arbitrary seed. 2^32 of the possible 2^64 seeds are aliased to another seed value.
+	 * Construct a generator with an arbitrary seed. 2^32 of the 2^64 possible seeds are aliased to another seed value.
 	 * @param seed the seed to use
 	 */
 	public LWRand32(long seed) {
@@ -58,11 +58,20 @@ public class LWRand32 implements RandomGenerator {
 		return TLR.get();
 	}
 	
+	/**
+	 * Set the stream to the given stream ID. Only the lower 31 bits are used.
+	 * @param streamId the stream ID
+	 * @return this generator
+	 */
 	public LWRand32 setStream(int streamId) {
 		stream = (streamId << 1) | 1;
 		return this;
 	}
 	
+	/**
+	 * Get this generator's stream ID.
+	 * @return the stream ID
+	 */
 	public int getStream() {
 		return stream >>> 1;
 	}
@@ -71,7 +80,7 @@ public class LWRand32 implements RandomGenerator {
 	 * Advance the generator one step.
 	 */
 	public void advance() {
-		c++;
+		c += stream;
 		d++; if (d == 0xFFFFFFFF) d = 0; // wrap d as needed
 	}
 	
