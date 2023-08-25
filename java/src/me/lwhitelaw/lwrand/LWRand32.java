@@ -204,4 +204,16 @@ public class LWRand32 implements RandomGenerator {
 	public long nextLong() {
 		return ((next(32) & 0xFFFFFFFFL) << 32) | (next(32) & 0xFFFFFFFFL);
 	}
+	
+	/**
+	 * Copy this generator.
+	 * @return a copy
+	 */
+	public LWRand32 copy() {
+		LWRand32 copy = new LWRand32();
+		copy.c = this.c;
+		copy.d = this.d;
+		copy.stream = this.stream;
+		return copy;
+	}
 }

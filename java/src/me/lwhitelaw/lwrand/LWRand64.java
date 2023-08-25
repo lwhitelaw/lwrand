@@ -18,7 +18,7 @@ import java.util.random.RandomGenerator;
  * @author lwhitelaw
  *
  */
-public class LWRand64 implements RandomGenerator {
+public class LWRand64 implements RandomGenerator.JumpableGenerator {
 	private static final ThreadLocal<LWRand64> TLR = ThreadLocal.withInitial(() -> {
 		int sysHashCode = System.identityHashCode(Thread.currentThread());
 		return new LWRand64().setStream(sysHashCode);
@@ -306,5 +306,41 @@ public class LWRand64 implements RandomGenerator {
 		haveBits = 0; // force 32-bit resync next call
 		advance();
 		return mix(c) ^ mix2(d);
+	}
+
+	/**
+	 * Copy this generator.
+	 */
+	@Override
+	public LWRand64 copy() {
+		LWRand64 copy = new LWRand64();
+		copy.c = this.c;
+		copy.d = this.d;
+		copy.stream = this.stream;
+		copy.value = this.value;
+		copy.haveBits = this.haveBits;
+		return copy;
+	}
+
+	/**
+	 * Jump the state by 2^64 states.
+	 */
+	@Override
+	public void jump() {
+		// Only increment d.
+		d++; if (d == 0xFFFFFFFF_FFFFFFFFL) d = 0;
+		
+		/*
+		 * Why?
+		 * c has 2^64 period, so jumping 2^64 means c does not change.
+		 * This doesn't change regardless of stream value.
+		 * d has period 2^64-1, so 2^64 - (2^64-1) = 1.
+		 * Therefore increment d once.
+		 */
+	}
+
+	@Override
+	public double jumpDistance() {
+		return 0x1P+64; // 2^64
 	}
 }
