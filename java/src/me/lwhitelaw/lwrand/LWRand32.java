@@ -122,33 +122,6 @@ public class LWRand32 implements RandomGenerator {
 		v += 0x6336D6EC; v ^= v >>> 14;
 		v += 0x696B1357; v ^= v << 16;
 		v += 0x632A4DD3; v ^= v >>> 8;
-		
-		// Unicorn set
-//			v += 0x46050EDE; v ^= v << 14;
-//			v += 0x3E5E6574; v ^= v >>> 9;
-//			v += 0x0EB658CE; v ^= v << 3;
-//			v += 0x2723B194; v ^= v << 15;
-//			
-//			v += 0x3278CC42; v ^= v >>> 17;
-//			v += 0x7EF79D81; v ^= v >>> 4;
-//			v += 0xA4DB621A; v ^= v << 9;
-//			v += 0x1B67A201; v ^= v >>> 14;
-		
-		// Tried-and-true set
-//			v += 0x40BEB317; v ^= v >>> 18;
-//			v += 0xD4EB3139; v ^= v <<  26;
-//			v += 0x94D16407; v ^= v >>> 7;
-//			v += 0x593DA2B5; v ^= v <<  21;
-//			
-//			v += 0x99432295; v ^= v >>> 20;
-//			v += 0x404B11EF; v ^= v <<  17;
-//			v += 0x3CCAB73D; v ^= v >>> 29;
-//			v += 0x93E84FC9; v ^= v <<  13;
-//			
-//			v += 0xDDE57393; v ^= v >>> 18;
-//			v += 0x381CA447; v ^= v <<  7;
-//			v += 0x77E9F6B5; v ^= v >>> 27;
-//			v += 0x372A7285; v ^= v <<  26;
 		return v;
 	}
 	
@@ -171,21 +144,6 @@ public class LWRand32 implements RandomGenerator {
 		v += 0x7EF79D81; v ^= v >>> 4;
 		v += 0xA4DB621A; v ^= v << 9;
 		v += 0xCC2C66ED; v ^= v >>> 15;
-		// Tried-and-true set
-//			v += 0xF395F3D7; v ^= v >>> 1;
-//			v += 0x993EE12D; v ^= v <<  4;
-//			v += 0x9AA4EAA3; v ^= v >>> 4;
-//			v += 0x77B21A0B; v ^= v <<  16;
-//			
-//			v += 0x69E36339; v ^= v >>> 3;
-//			v += 0x912BF7EF; v ^= v <<  4;
-//			v += 0xC899B3C5; v ^= v >>> 14;
-//			v += 0x380A02B3; v ^= v <<  14;
-//			
-//			v += 0x013386A3; v ^= v >>> 10;
-//			v += 0x77D7B81F; v ^= v <<  15;
-//			v += 0xE8052793; v ^= v >>> 16;
-//			v += 0xCB4724EB; v ^= v <<  3;
 		return v;
 	}
 	

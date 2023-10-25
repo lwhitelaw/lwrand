@@ -124,23 +124,6 @@ public class LWRand64 implements RandomGenerator.JumpableGenerator {
 	 */
 	private long mix(long c) {
 		long v = c;
-		// Optimised 4 - avalanche image looks good - used for testing
-		// PractRand failed this at 2^40
-		// av = 0.03169826840338819
-		// sav = 0.0018870179137751777
-//			v += 0xE134F70DB9447CA2L; v ^= v >>> 34;
-//			v += 0x60DA52CA490014FBL; v ^= v << 15;
-//			v += 0x98680816D4A0F62CL; v ^= v << 14;
-//			v += 0x0139F24880D222E1L; v ^= v >>> 12;
-//			
-//			v += 0x3C9F910C32549830L; v ^= v << 19;
-//			v += 0x1BA2531C2F6B68CCL; v ^= v << 5;
-//			v += 0xB41AAE6E6D26888DL; v ^= v << 19;
-//			v += 0x3626882462E0872CL; v ^= v << 8;
-//			
-//			v += 0xE74F229FA609C504L; v ^= v >>> 31;
-//			v += 0x9B7967F228580975L; v ^= v >>> 12;
-		
 		// Need to try this set sometime - used tightened parametres
 		// Avalanche image is *near* full grey with some contrast spots
 		// Re-exam is similar. Avalanche testing may not be able to expose 64-bit function flaws properly
@@ -157,82 +140,6 @@ public class LWRand64 implements RandomGenerator.JumpableGenerator {
 		
 		v += 0x9AC877D396CCD88CL; v ^= v >>> 22;
 		v += 0xF61ECC72C148D762L; v ^= v << 28;
-		
-		// Optimised 3 - flaws
-//			v += 0xFD7008BA6F5D4B23L; v ^= v << 41;
-//			v += 0x85489C9F3F4A8B62L; v ^= v << 7;
-//			v += 0xF5B1027389679609L; v ^= v >>> 24;
-//			v += 0xA8D81DA084234BF4L; v ^= v >>> 15;
-//			
-//			v += 0x05A173054CDC8EC3L; v ^= v >>> 35;
-//			v += 0x53BEE0BEC9B44239L; v ^= v << 27;
-//			v += 0xC386276CBC0B87BAL; v ^= v << 19;
-//			v += 0x3088492813F7E614L; v ^= v >>> 36;
-//			
-//			v += 0xB388903EEA825AC3L; v ^= v << 20;
-//			v += 0x5A3A42A559F1C505L; v ^= v >>> 42;
-		
-		// Optimised 2 - flaws
-//			v += 0x470791830C125562L; v ^= v << 3;
-//			v += 0x1841F39BA1DDDA6EL; v ^= v << 30;
-//			v += 0x59CC86F3D3A3F393L; v ^= v >>> 11;
-//			v += 0xABB8674CF56962E4L; v ^= v << 7;
-//			
-//			v += 0x5240E2C61367D976L; v ^= v >>> 25;
-//			v += 0x958EE44601BC8723L; v ^= v << 4;
-//			v += 0x16A9C6F70FE351E5L; v ^= v >>> 35;
-//			v += 0x1F6059C16CB64191L; v ^= v << 38;
-//			
-//			v += 0x20A805BBD32B399AL; v ^= v >>> 5;
-//			v += 0x6AF19B0D74C82368L; v ^= v << 6;
-		
-		// Optimised 10op
-		// PractRand failed this at 2^39
-		
-//			v += 0xF55E5AE6C700FCB6L; v ^= v << 10;
-//			v += 0x0FBA145E5420D2C9L; v ^= v >>> 6;
-//			v += 0x5EFFD64B65A63AD4L; v ^= v << 29;
-//			v += 0x9E1153E7CF025028L; v ^= v >>> 18;
-//			
-//			v += 0x918470C2B4F0F977L; v ^= v >>> 5;
-//			v += 0x953C337A9D1AFFDBL; v ^= v >>> 41;
-//			v += 0xF136E93E3E379E48L; v ^= v >>> 30;
-//			v += 0x09C5A5D9C78AE813L; v ^= v << 27;
-//			
-//			v += 0x6B08A61EAD542568L; v ^= v << 14;
-//			v += 0x287D38C68ED705B8L; v ^= v >>> 43;
-		
-		// Optimised
-//			v += 0x18CC8571BE7C78F7L; v ^= v >>> 22;
-//			v += 0xB4D0D3067BC16102L; v ^= v >>> 58;
-//			v += 0xF86CCEAA51E2153FL; v ^= v << 25;
-//			v += 0x98680816D4A0F62CL; v ^= v << 14;
-//			
-//			v += 0xFDE579A0E743B3C2L; v ^= v >>> 16;
-//			v += 0x6B2B654828EC442EL; v ^= v >>> 21;
-//			v += 0x223518F9868C16E2L; v ^= v >>> 46;
-//			v += 0x2275FCAA57C5019FL; v ^= v << 39;
-//			
-//			v += 0xF7987A3F964AC1FAL; v ^= v << 56;
-//			v += 0x3626882462E0872CL; v ^= v << 8;
-//			v += 0xB5BA85DE452E6D83L; v ^= v << 3;
-//			v += 0x0A951F64174039F2L; v ^= v >>> 25;
-		
-		// Tried-and-true to at least 2^40
-//			v += 0xC22545B27DA2BB23L; v ^= v >>> 19;
-//			v += 0x598BDC3A121EBEF9L; v ^= v <<  19;
-//			v += 0xB05FC85E077E169BL; v ^= v >>> 21;
-//			v += 0x15978A22F45ABE85L; v ^= v <<  12;
-//			
-//			v += 0x16B18296671E922FL; v ^= v >>> 3;
-//			v += 0x64E8BBDF93782523L; v ^= v <<  19;
-//			v += 0xC9EF33CD01F36FFBL; v ^= v >>> 1;
-//			v += 0x5590DBD147384177L; v ^= v <<  12;
-//			
-//			v += 0x4457E49208E5552BL; v ^= v >>> 22;
-//			v += 0x5C88CA32C0C68E29L; v ^= v <<  8;
-//			v += 0xE65647934FC65E07L; v ^= v >>> 26;
-//			v += 0x524A2C61FEC6743FL; v ^= v <<  9;
 		return v;
 	}
 	
@@ -243,21 +150,6 @@ public class LWRand64 implements RandomGenerator.JumpableGenerator {
 	 */
 	private long mix2(long d) {
 		long v = d;
-//			return 0;
-		// Optimised
-//			v += 0x6F0208508F3431D9L; v ^= v >>> 22;
-//			v += 0x5B0EC6B841DCFD79L; v ^= v << 34;
-//			v += 0xE20E25BA8D5A63D3L; v ^= v << 26;
-//			v += 0x3F8700D21736262CL; v ^= v << 18;
-//			
-//			v += 0x43F7FA0AB262EBB7L; v ^= v >>> 27;
-//			v += 0x5B58E3642761676CL; v ^= v << 3;
-//			v += 0x0E9D78DAFB5B79A0L; v ^= v << 11;
-//			v += 0xBD557F8C155C6303L; v ^= v >>> 17;
-//			
-//			v += 0x19E815DECFA7F440L; v ^= v >>> 48;
-//			v += 0xBF2B6C8ED533A087L; v ^= v << 20;
-		
 		// Optimised 2 - looks better on avalanche image - used for testing
 		// PractRand has passed 2^41 on this parameter set. Testing stopped here.
 		// This is the "golden set"
@@ -275,22 +167,6 @@ public class LWRand64 implements RandomGenerator.JumpableGenerator {
 		
 		v += 0x19C1405A41403449L; v ^= v >>> 33;
 		v += 0xCAC96BEA9B351A4AL; v ^= v << 23;
-		
-		// Randomly generated
-//			v += 0x2F385BBCF3065831L; v ^= v >>> 8;
-//			v += 0x33A47C1BF7EE67D1L; v ^= v <<  6;
-//			v += 0xDD3E83F4BEABC94BL; v ^= v >>> 14;
-//			v += 0x9D479B43DD9174F5L; v ^= v <<  29;
-//			
-//			v += 0x89566EE03F2ED94FL; v ^= v >>> 28;
-//			v += 0x544775D29AB9C63BL; v ^= v <<  30;
-//			v += 0x3F2374374761A991L; v ^= v >>> 30;
-//			v += 0xF536603E2B72490BL; v ^= v <<  28;
-//			
-//			v += 0xE8B200A7D2BE06D7L; v ^= v >>> 28;
-//			v += 0x5EC1B6DBD86E42DFL; v ^= v <<  13;
-//			v += 0xE2A251D06DFC628DL; v ^= v >>> 21;
-//			v += 0xB9DC821CC202A22BL; v ^= v <<  11;
 		return v;
 	}
 	
