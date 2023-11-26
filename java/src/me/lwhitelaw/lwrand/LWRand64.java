@@ -124,7 +124,7 @@ public class LWRand64 implements RandomGenerator.JumpableGenerator {
 	 */
 	private long mix(long c) {
 		long v = c;
-		// Need to try this set sometime - used tightened parametres
+		// Need to try this set sometime - used tightened parameters
 		// Avalanche image is *near* full grey with some contrast spots
 		// Re-exam is similar. Avalanche testing may not be able to expose 64-bit function flaws properly
 		// PractRand failed this at 2^41; good enough for me
